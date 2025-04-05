@@ -1,0 +1,107 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <Windows.h>
+
+using namespace std;
+
+// Функция для ввода с клавиатуры
+void inputFromTerminal(vector<int>& vec, int size)
+{
+    cout << "Введите " << size << " элементов:\n";
+    for (int i = 0; i < size; ++i)
+    {
+        int value;
+        cin >> value;
+        vec.push_back(value);
+    }
+}
+
+void inputFromFile(vector<int>& vec)
+{
+    ifstream file("s.txt");
+    int value;
+    while (file >> value)
+    {
+        vec.push_back(value);
+    }
+    file.close();
+}
+
+
+// Функция для генерации чисел
+void inputRandom(vector<int>& vec, int size)
+{
+    srand(time(0));
+    for (int i = 0; i < size; ++i)
+    {
+        vec.push_back(rand() % 10 - 1);
+    }
+}
+
+int main()
+{
+    SetConsoleOutputCP(CP_UTF8);
+    setlocale(LC_ALL, "Russian");
+    vector<int> vec;
+    int choice, size;
+
+    cout << "Выберите способ ввода вектора:\n";
+    cout << "1. Ввод с клавиатуры\n";
+    cout << "2. Чтение из файла\n";
+    cout << "3. Генерация случайных чисел\n";
+    cout << "Ваш выбор: ";
+    cin >> choice;
+
+    switch (choice)
+    {
+    case 1:
+        cout << "Введите размер вектора: ";
+        cin >> size;
+        inputFromTerminal(vec, size);
+        break;
+    case 2:
+        inputFromFile(vec);
+        break;
+    case 3:
+        cout << "Введите размер вектора: ";
+        cin >> size;
+        inputRandom(vec, size);
+        break;
+    default:
+        cout << "Введите размер вектора: ";
+        cin >> size;
+        inputRandom(vec, size);
+        break;
+    }
+
+    // Вывод 
+    cout << "Ваш вектор: ";
+    for (int i = 0;i < vec.size(); i++)
+    {
+        cout << vec[i] << " ";
+    }
+    cout << endl;
+
+    int count = 0;
+    int tree = vec.size() / 3;
+
+    for (int i = 0;i < vec.size() / 3; i++)
+    {
+        cout << vec[i] << " ";
+    }
+    for (int i = vec.size() / 3 * 2 - 1; i >= vec.size() / 3; i--)
+    {
+        cout << vec[i] << " ";
+    }
+    for (int i = vec.size() - 1; i >= vec.size() / 3 * 2; i--)
+    {
+        cout << vec[i] << " ";
+    }
+
+
+    cout << endl;
+    // 0 1 2 3 4 5 6 7 8
+}
