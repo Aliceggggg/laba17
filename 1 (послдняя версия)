@@ -1,0 +1,117 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <Windows.h>
+
+using namespace std;
+
+// Функция для ввода с клавиатуры
+void inputFromTerminal(vector<int>& vec, int size)
+{
+    cout << "Введите " << size << " элементов:\n";
+    for (int i = 0; i < size; ++i)
+    {
+        int value;
+        cin >> value;
+        vec.push_back(value);
+    }
+}
+
+void inputFromFile(vector<int>& vec)
+{
+    ifstream file("s.txt");
+    int value;
+    while (file >> value)
+    {
+        vec.push_back(value);
+    }
+    file.close();
+}
+
+
+// Функция для генерации чисел
+void inputRandom(vector<int>& vec, int size)
+{
+    srand(time(0));
+    for (int i = 0; i < size; ++i)
+    {
+        vec.push_back(rand() % 10 - 1);
+    }
+}
+
+int main()
+{
+    SetConsoleOutputCP(CP_UTF8);
+    setlocale(LC_ALL, "Russian");
+    vector<int> vec;
+    int choice, size;
+
+    cout << "Выберите способ ввода вектора:\n";
+    cout << "1. Ввод с клавиатуры\n";
+    cout << "2. Чтение из файла\n";
+    cout << "3. Генерация случайных чисел\n";
+    cout << "Ваш выбор: ";
+    cin >> choice;
+
+    switch (choice)
+    {
+    case 1:
+        cout << "Введите размер вектора: ";
+        cin >> size;
+        while (size % 3 != 0) {
+            cout << "Число должно быть кратно 3! Введите снова: ";
+            cin >> size;
+        }
+        inputFromTerminal(vec, size);
+        break;
+    case 2:
+        inputFromFile(vec);
+        break;
+    case 3:
+        cout << "Введите размер вектора: ";
+        cin >> size;
+        while (size % 3 != 0) {
+            cout << "Число должно быть кратно 3! Введите снова: ";
+            cin >> size;
+        }
+        inputRandom(vec, size);
+        break;
+    default:
+        cout << "Введите размер вектора: ";
+        cin >> size;
+        while (size % 3 != 0) {
+            cout << "Число должно быть кратно 3! Введите снова: ";
+            cin >> size;
+        }
+        inputRandom(vec, size);
+        break;
+    }
+
+    cout << "Ваш вектор: ";
+    for (int i = 0;i < vec.size(); i++)
+    {
+        cout << vec[i] << " ";
+    }
+    cout << endl;
+
+    int count = 0;
+    int tree = vec.size() / 3;
+
+    size_t third = vec.size() / 3;
+
+
+    cout << "Первая треть: ";
+    for (auto i = vec.begin(); i != vec.begin() + third; ++i) {
+        cout << *i << " ";
+    }
+    cout << endl << "Вторая треть: ";
+    for (auto i = vec.rbegin() + third; i != vec.rbegin() + 2 * third; ++i) {
+        cout << *i << " ";
+    }
+    cout << endl << "Третья треть: ";
+    for (auto i = vec.rbegin(); i != vec.rbegin() + third; ++i) {
+        cout << *i << " ";
+    }
+}
